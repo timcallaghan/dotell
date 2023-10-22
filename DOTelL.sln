@@ -8,6 +8,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{4010CF26
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTelL.Api", "src\DOTelL.Api\DOTelL.Api.csproj", "{0F078E62-7988-40CC-90D2-1E83FC6CFE77}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{98D968ED-6473-453E-922F-E50815399A9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{52B838F1-FB5F-421D-A6D1-A802B3E0802A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,8 @@ Global
 		{0F078E62-7988-40CC-90D2-1E83FC6CFE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F078E62-7988-40CC-90D2-1E83FC6CFE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F078E62-7988-40CC-90D2-1E83FC6CFE77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0F078E62-7988-40CC-90D2-1E83FC6CFE77} = {98D968ED-6473-453E-922F-E50815399A9C}
 	EndGlobalSection
 EndGlobal
