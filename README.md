@@ -17,7 +17,7 @@ DOTelL is _not_ meant to replace a production-grade OTel backend. It is only mea
 ## Technology
 
 1. .NET for hosting gRPC services to ingest telemetry, and exposing APIs for querying the ingested telemetry
-2. Flutter for the SPA frontend, which is served statically by the .NET backend
+2. Blazor for the SPA frontend, which is served statically by the .NET backend
 3. SignalR for realtime UI updates whenever telemetry is ingested
 4. DuckDB for storing and querying telemetry
 
