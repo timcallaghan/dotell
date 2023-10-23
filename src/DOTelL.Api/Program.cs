@@ -1,4 +1,5 @@
 using DOTelL.Api.Services;
+using DOTelL.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddSingleton<ISignalAppender, SignalAppender>();
 
 var app = builder.Build();
 

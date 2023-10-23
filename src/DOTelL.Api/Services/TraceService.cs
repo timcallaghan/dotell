@@ -1,3 +1,4 @@
+using DOTelL.DataAccess;
 using Grpc.Core;
 using OpenTelemetry.Proto.Collector.Trace.V1;
 
@@ -5,18 +6,16 @@ namespace DOTelL.Api.Services;
 
 public class TraceService : OpenTelemetry.Proto.Collector.Trace.V1.TraceService.TraceServiceBase
 {
-    private readonly ILogger<TraceService> _logger;
+    private readonly ISignalAppender _signalAppender;
 
-    public TraceService(ILogger<TraceService> logger)
+    public TraceService(
+        ISignalAppender signalAppender)
     {
-        _logger = logger;
+        _signalAppender = signalAppender ?? throw new ArgumentNullException(nameof(signalAppender));
     }
 
-    public override Task<ExportTraceServiceResponse> Export(ExportTraceServiceRequest request, ServerCallContext context)
+    public override async Task<ExportTraceServiceResponse> Export(ExportTraceServiceRequest request, ServerCallContext context)
     {
-        _logger.LogInformation("Traces were processed");
-
-        var response = new ExportTraceServiceResponse();
-        return Task.FromResult(response);
+        return await _signalAppender.AppendTracesAsync(request, context);
     }
 }

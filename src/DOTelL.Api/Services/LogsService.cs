@@ -1,3 +1,4 @@
+using DOTelL.DataAccess;
 using Grpc.Core;
 using OpenTelemetry.Proto.Collector.Logs.V1;
 
@@ -5,18 +6,16 @@ namespace DOTelL.Api.Services;
 
 public class LogsService : OpenTelemetry.Proto.Collector.Logs.V1.LogsService.LogsServiceBase
 {
-    private readonly ILogger<LogsService> _logger;
+    private readonly ISignalAppender _signalAppender;
 
-    public LogsService(ILogger<LogsService> logger)
+    public LogsService(
+        ISignalAppender signalAppender)
     {
-        _logger = logger;
+        _signalAppender = signalAppender ?? throw new ArgumentNullException(nameof(signalAppender));
     }
 
-    public override Task<ExportLogsServiceResponse> Export(ExportLogsServiceRequest request, ServerCallContext context)
+    public override async Task<ExportLogsServiceResponse> Export(ExportLogsServiceRequest request, ServerCallContext context)
     {
-        _logger.LogInformation("Logs were processed");
-
-        var response = new ExportLogsServiceResponse();
-        return Task.FromResult(response);
+        return await _signalAppender.AppendLogsAsync(request, context);
     }
 }

@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\common\v1\common.proto" GrpcServices="Server">
+            <Link>common.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\logs\v1\logs.proto" GrpcServices="Server">
+            <Link>logs.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\metrics\v1\metrics.proto" GrpcServices="Server">
+            <Link>metrics.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\resource\v1\resource.proto" GrpcServices="Server">
+            <Link>resource.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\trace\v1\trace.proto" GrpcServices="Server">
+            <Link>trace.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\collector\logs\v1\logs_service.proto" GrpcServices="Server">
+            <Link>Services\logs_service.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\collector\metrics\v1\metrics_service.proto" GrpcServices="Server">
+            <Link>Services\metrics_service.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+        <Protobuf Include="..\..\opentelemetry-proto\opentelemetry\proto\collector\trace\v1\trace_service.proto" GrpcServices="Server">
+            <Link>Services\trace_service.proto</Link>
+            <AdditionalImportDirs>..\..\opentelemetry-proto</AdditionalImportDirs>
+        </Protobuf>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Grpc.AspNetCore" Version="2.58.0" />
+    </ItemGroup>
+
+</Project>

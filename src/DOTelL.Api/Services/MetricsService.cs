@@ -1,3 +1,4 @@
+using DOTelL.DataAccess;
 using Grpc.Core;
 using OpenTelemetry.Proto.Collector.Metrics.V1;
 
@@ -5,18 +6,16 @@ namespace DOTelL.Api.Services;
 
 public class MetricsService : OpenTelemetry.Proto.Collector.Metrics.V1.MetricsService.MetricsServiceBase
 {
-    private readonly ILogger<MetricsService> _logger;
+    private readonly ISignalAppender _signalAppender;
 
-    public MetricsService(ILogger<MetricsService> logger)
+    public MetricsService(
+        ISignalAppender signalAppender)
     {
-        _logger = logger;
+        _signalAppender = signalAppender ?? throw new ArgumentNullException(nameof(signalAppender));
     }
 
-    public override Task<ExportMetricsServiceResponse> Export(ExportMetricsServiceRequest request, ServerCallContext context)
+    public override async Task<ExportMetricsServiceResponse> Export(ExportMetricsServiceRequest request, ServerCallContext context)
     {
-        _logger.LogInformation("Metrics were processed");
-
-        var response = new ExportMetricsServiceResponse();
-        return Task.FromResult(response);
+        return await _signalAppender.AppendMetricsAsync(request, context);
     }
 }
