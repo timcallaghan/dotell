@@ -23,7 +23,7 @@ internal class DatabaseBootstrapper : IDatabaseBootstrapper
     {
         _logger.LogInformation("Checking if database needs to be created");
 
-        await using var connection = new DuckDBConnection(ConnectionString);
+        await using var connection = new DuckDBConnection(_options.ConnectionString);
         await connection.OpenAsync();
 
         await using var duckDbCommand = connection.CreateCommand();
@@ -39,8 +39,4 @@ internal class DatabaseBootstrapper : IDatabaseBootstrapper
         
         await connection.CloseAsync();
     }
-
-    private string ConnectionString => _options.UseInMemory
-        ? Constants.Database.InMemoryConnectionString
-        : Constants.Database.FileConnectionString;
 }

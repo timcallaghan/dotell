@@ -27,7 +27,7 @@ internal class SignalAppender : ISignalAppender
     {
         _logger.LogInformation("Processing logs...");
         
-        await using var connection = new DuckDBConnection(ConnectionString);
+        await using var connection = new DuckDBConnection(_options.ConnectionString);
         await connection.OpenAsync();
         
         using (var appender = connection.CreateAppender(Constants.Database.Tables.Logs.Name))
@@ -89,8 +89,4 @@ internal class SignalAppender : ISignalAppender
         var response = new ExportTraceServiceResponse();
         return Task.FromResult(response);
     }
-    
-    private string ConnectionString => _options.UseInMemory
-        ? Constants.Database.InMemoryConnectionString
-        : Constants.Database.FileConnectionString;
 }
