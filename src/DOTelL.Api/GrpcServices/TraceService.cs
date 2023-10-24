@@ -1,4 +1,5 @@
 using DOTelL.DataAccess;
+using DOTelL.DataAccess.Services;
 using Grpc.Core;
 using OpenTelemetry.Proto.Collector.Trace.V1;
 

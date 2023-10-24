@@ -395,3 +395,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 *.DS_Store
+/src/DOTelL.Api/DOTelL.db

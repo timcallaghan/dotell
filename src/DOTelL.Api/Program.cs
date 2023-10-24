@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
-builder.Services.AddSingleton<ISignalAppender, SignalAppender>();
+builder.Services.ConfigureDataAccess(builder.Configuration);
+builder.Services.AddHostedService<DatabaseBootstrapService>();
 
 var app = builder.Build();
 
