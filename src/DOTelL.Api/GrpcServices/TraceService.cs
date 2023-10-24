@@ -1,9 +1,8 @@
-using DOTelL.DataAccess;
 using DOTelL.DataAccess.Services;
 using Grpc.Core;
 using OpenTelemetry.Proto.Collector.Trace.V1;
 
-namespace DOTelL.Api.Services;
+namespace DOTelL.Api.GrpcServices;
 
 public class TraceService : OpenTelemetry.Proto.Collector.Trace.V1.TraceService.TraceServiceBase
 {

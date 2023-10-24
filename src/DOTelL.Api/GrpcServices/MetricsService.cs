@@ -1,9 +1,8 @@
-using DOTelL.DataAccess;
 using DOTelL.DataAccess.Services;
 using Grpc.Core;
 using OpenTelemetry.Proto.Collector.Metrics.V1;
 
-namespace DOTelL.Api.Services;
+namespace DOTelL.Api.GrpcServices;
 
 public class MetricsService : OpenTelemetry.Proto.Collector.Metrics.V1.MetricsService.MetricsServiceBase
 {
