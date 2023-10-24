@@ -43,13 +43,16 @@ internal class SignalAppender : ISignalAppender
                     foreach (var logRecord in scopeLog.LogRecords)
                     {
                         var row = appender.CreateRow();
+
+                        var observedTime = logRecord.ObservedTimeUnixNano > 0L
+                            ? logRecord.ObservedTimeUnixNano
+                            : (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1000000L;
                         
                         row.AppendValue(resource)
                             .AppendValue(scope)
                             .AppendValue(scopeLog.SchemaUrl)
                             .AppendValue(logRecord.TimeUnixNano)
-                            // TODO: This should probably be Utc Now
-                            .AppendValue(logRecord.ObservedTimeUnixNano)
+                            .AppendValue(observedTime)
                             .AppendValue((byte)logRecord.SeverityNumber)
                             .AppendValue(logRecord.SeverityText)
                             .AppendValue(logRecord.Body?.ToString())
