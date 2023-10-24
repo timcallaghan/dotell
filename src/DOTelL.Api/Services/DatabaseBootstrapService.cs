@@ -1,4 +1,3 @@
-using DOTelL.DataAccess;
 using DOTelL.DataAccess.Services;
 
 namespace DOTelL.Api.Services;
