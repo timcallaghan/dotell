@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddGrpc();
 builder.Services.ConfigureDataAccess(builder.Configuration);
-builder.Services.AddHostedService<DatabaseBootstrapService>();
+//builder.Services.AddHostedService<DatabaseBootstrapService>();
 
 var app = builder.Build();
 

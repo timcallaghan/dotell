@@ -28,3 +28,5 @@ DOTelL is _not_ meant to replace a production-grade OTel backend. It is only mea
 2. Install prerequisites:
    1. [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
    2. TODO...
+3. Build a local docker image with `docker build -t dotell.api:dev -f src/DOTelL.Api/Dockerfile .`
+4. Run the image with `docker run -p 4317:4317 -p 5052:5042 -p 5432:5432 --name dotell-testing -e POSTGRES_PASSWORD=password -d dotell.api:dev`
