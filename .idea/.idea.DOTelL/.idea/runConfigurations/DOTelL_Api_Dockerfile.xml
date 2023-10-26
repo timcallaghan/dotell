@@ -5,14 +5,6 @@
         <option name="imageTag" value="dotell.api" />
         <option name="containerName" value="dotell.api" />
         <option name="contextFolderPath" value="." />
-        <option name="envVars">
-          <list>
-            <DockerEnvVarImpl>
-              <option name="name" value="POSTGRES_PASSWORD" />
-              <option name="value" value="password" />
-            </DockerEnvVarImpl>
-          </list>
-        </option>
         <option name="portBindings">
           <list>
             <DockerPortBindingImpl>

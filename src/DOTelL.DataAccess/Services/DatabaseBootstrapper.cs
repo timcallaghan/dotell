@@ -1,42 +1,35 @@
-using DOTelL.DataAccess.Options;
-using DuckDB.NET.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace DOTelL.DataAccess.Services;
 
 internal class DatabaseBootstrapper : IDatabaseBootstrapper
 {
     private readonly ILogger<DatabaseBootstrapper> _logger;
-    private readonly DatabaseOptions _options;
 
-    public DatabaseBootstrapper(
-        ILogger<DatabaseBootstrapper> logger,
-        IOptions<DatabaseOptions> options)
+    public DatabaseBootstrapper(ILogger<DatabaseBootstrapper> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        if (options == null) throw new ArgumentNullException(nameof(options));
-        _options = options.Value;
     }
 
-    public async Task EnsureCreated()
+    public async Task EnsureCreated(SignalDbContext dbContext)
     {
         _logger.LogInformation("Checking if database needs to be created");
 
-        await using var connection = new DuckDBConnection(_options.ConnectionString);
-        await connection.OpenAsync();
-
-        await using var duckDbCommand = connection.CreateCommand();
+        await dbContext.Database.MigrateAsync();
         
-        duckDbCommand.CommandText = Constants.Database.Tables.Logs.CreateStatement;
-        await duckDbCommand.ExecuteNonQueryAsync();
-        
-        duckDbCommand.CommandText = Constants.Database.Tables.Metrics.CreateStatement;
-        await duckDbCommand.ExecuteNonQueryAsync();
-        
-        duckDbCommand.CommandText = Constants.Database.Tables.Traces.CreateStatement;
-        await duckDbCommand.ExecuteNonQueryAsync();
-        
-        await connection.CloseAsync();
+        if (dbContext.Database.GetDbConnection() is NpgsqlConnection npgsqlConnection)
+        {
+            await npgsqlConnection.OpenAsync();
+            try
+            {
+                await npgsqlConnection.ReloadTypesAsync();
+            }
+            finally
+            {
+                await npgsqlConnection.CloseAsync();
+            }
+        }
     }
 }

@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DuckDB.NET.Data.Full" Version="0.9.1" />
+      <ProjectReference Include="..\DOTelL.Protos\DOTelL.Protos.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DOTelL.Protos\DOTelL.Protos.csproj" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
     </ItemGroup>
 
 </Project>

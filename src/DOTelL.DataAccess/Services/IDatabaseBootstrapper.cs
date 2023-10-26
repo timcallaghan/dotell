@@ -2,5 +2,5 @@ namespace DOTelL.DataAccess.Services;
 
 public interface IDatabaseBootstrapper
 {
-    Task EnsureCreated();
+    Task EnsureCreated(SignalDbContext dbContext);
 }

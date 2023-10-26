@@ -17,9 +17,9 @@ DOTelL is _not_ meant to replace a production-grade OTel backend. It is only mea
 ## Technology
 
 1. .NET for hosting gRPC services to ingest telemetry, and exposing APIs for querying the ingested telemetry
-2. Blazor for the SPA frontend, which is served statically by the .NET backend
-3. SignalR for realtime UI updates whenever telemetry is ingested
-4. DuckDB for storing and querying telemetry
+2. PostgreSQL for storing and querying telemetry
+
+All of the above are [combined into a single Docker image](https://docs.docker.com/config/containers/multi-service_container/) that can be easily run locally. _NOTE: This is done purposefully for ease of use by developers and in no way endorses running multiple processes inside a single container in deployed environments._
 
 ## Building
 
@@ -29,4 +29,4 @@ DOTelL is _not_ meant to replace a production-grade OTel backend. It is only mea
    1. [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
    2. TODO...
 3. Build a local docker image with `docker build -t dotell.api:dev -f src/DOTelL.Api/Dockerfile .`
-4. Run the image with `docker run -p 4317:4317 -p 5052:5042 -p 5432:5432 --name dotell-testing -e POSTGRES_PASSWORD=password -d dotell.api:dev`
+4. Run the image with `docker run -p 4317:4317 -p 5052:5042 -p 5432:5432 --name dotell-testing -d dotell.api:dev`
