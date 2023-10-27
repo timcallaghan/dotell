@@ -1,4 +1,8 @@
+using System.Text.Json;
+using DOTelL.DataAccess.Extensions;
 using DOTelL.DataAccess.Models;
+using DOTelL.DataAccess.Models.LogData;
+using DOTelL.DataAccess.Models.TraceData;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Proto.Collector.Logs.V1;
@@ -48,23 +52,36 @@ internal class SignalAppender : ISignalAppender
                     var observedTime = logRecord.ObservedTimeUnixNano > 0L
                         ? logRecord.ObservedTimeUnixNano
                         : (ulong)DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1000000L;
-                    
-                    _dbContext.Logs.Add(new Log
+
+                    var log = new Log
                     {
-                        Resource = resourceLog.Resource,
+                        Resource = resourceLog.Resource.Attributes.ToAttributeDictionary(),
                         ResourceSchemaUrl = resourceLog.SchemaUrl,
-                        Scope = scopeLog.Scope,
+                        ScopeName = scopeLog.Scope?.Name,
+                        ScopeVersion = scopeLog.Scope?.Version,
+                        ScopeAttributes = scopeLog.Scope?.Attributes.ToAttributeDictionary(),
                         SchemaUrl = scopeLog.SchemaUrl,
                         TimeUnixNano = logRecord.TimeUnixNano,
                         ObservedTimeUnixNano = observedTime,
                         SeverityNumber = logRecord.SeverityNumber,
                         SeverityText = logRecord.SeverityText,
-                        Body = logRecord.Body,
-                        Attributes = logRecord.Attributes,
+                        Attributes = logRecord.Attributes?.ToAttributeDictionary(),
                         Flags = logRecord.Flags,
                         TraceId = logRecord.TraceId.ToBase64(),
                         SpanId = logRecord.SpanId.ToBase64()
-                    });
+                    };
+
+                    if (logRecord.Body is not null)
+                    {
+                        log.Body = new LogBody
+                        {
+                            Value = logRecord.Body.ExtractObject()
+                        };
+                    }
+                    
+                    _logger.LogInformation(JsonSerializer.Serialize(log));
+                    
+                    _dbContext.Logs.Add(log);
                 }
             }
         }
@@ -100,19 +117,17 @@ internal class SignalAppender : ISignalAppender
                 {
                     _dbContext.Metrics.Add(new Metric
                     {
-                        Resource = resourceMetric.Resource,
+                        Resource = resourceMetric.Resource.Attributes.ToAttributeDictionary(),
                         ResourceSchemaUrl = resourceMetric.SchemaUrl,
-                        Scope = scopeMetrics.Scope,
+                        ScopeName = scopeMetrics.Scope?.Name,
+                        ScopeVersion = scopeMetrics.Scope?.Version,
+                        ScopeAttributes = scopeMetrics.Scope?.Attributes.ToAttributeDictionary(),
                         SchemaUrl = scopeMetrics.SchemaUrl,
                         Name = metric.Name,
                         Description = metric.Description ?? string.Empty,
                         Unit = metric.Unit ?? string.Empty,
                         MetricType = metric.DataCase,
-                        Gauge = metric.Gauge,
-                        Sum = metric.Sum,
-                        Histogram = metric.Histogram,
-                        ExponentialHistogram = metric.ExponentialHistogram,
-                        Summary = metric.Summary
+                        Data = metric.ExtractData()
                     });
                 }
             }
@@ -147,11 +162,13 @@ internal class SignalAppender : ISignalAppender
             {
                 foreach (var span in scopeSpan.Spans)
                 {
-                    _dbContext.Traces.Add(new Trace
+                    var trace = new Trace
                     {
-                        Resource = resourceSpan.Resource,
+                        Resource = resourceSpan.Resource.Attributes.ToAttributeDictionary(),
                         ResourceSchemaUrl = resourceSpan.SchemaUrl,
-                        Scope = scopeSpan.Scope,
+                        ScopeName = scopeSpan.Scope?.Name,
+                        ScopeVersion = scopeSpan.Scope?.Version,
+                        ScopeAttributes = scopeSpan.Scope?.Attributes.ToAttributeDictionary(),
                         SchemaUrl = scopeSpan.SchemaUrl,
                         TraceId = span.TraceId.ToBase64(),
                         SpanId = span.SpanId.ToBase64(),
@@ -162,12 +179,33 @@ internal class SignalAppender : ISignalAppender
                         Kind = span.Kind,
                         StartTimeUnixNano = span.StartTimeUnixNano,
                         EndTimeUnixNano = span.EndTimeUnixNano,
-                        Attributes = span.Attributes,
-                        Events = span.Events,
-                        Links = span.Links,
+                        Attributes = span.Attributes?.ToAttributeDictionary(),
                         Message = span.Status?.Message,
                         Code = span.Status?.Code ?? Status.Types.StatusCode.Unset
-                    });
+                    };
+
+                    if (span.Events is not null)
+                    {
+                        trace.Events = span.Events.Select(o => new TraceEvent
+                        {
+                            TimeUnixNano = o.TimeUnixNano,
+                            Name = o.Name,
+                            Attributes = o.Attributes?.ToAttributeDictionary()
+                        }).ToList();
+                    }
+
+                    if (span.Links is not null)
+                    {
+                        trace.Links = span.Links.Select(o => new TraceLink
+                        {
+                            TraceId = o.TraceId.ToBase64(),
+                            SpanId = o.SpanId.ToBase64(),
+                            TraceState = o.TraceState,
+                            Attributes = o.Attributes?.ToAttributeDictionary()
+                        }).ToList();
+                    }
+                    
+                    _dbContext.Traces.Add(trace);
                 }
             }
         }

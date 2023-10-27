@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using Google.Protobuf.Collections;
-using OpenTelemetry.Proto.Common.V1;
-using OpenTelemetry.Proto.Resource.V1;
+using DOTelL.DataAccess.Models.TraceData;
 using OpenTelemetry.Proto.Trace.V1;
 
 namespace DOTelL.DataAccess.Models;
@@ -11,12 +9,14 @@ public class Trace
     public int Id { get; set; }
     
     [Column(TypeName = "jsonb")]
-    public Resource Resource { get; set; } = null!;
+    public Dictionary<string, object?> Resource { get; set; } = null!;
     
     public string? ResourceSchemaUrl { get; set; }
+    public string? ScopeName { get; set; }
+    public string? ScopeVersion { get; set; }
 
     [Column(TypeName = "jsonb")]
-    public InstrumentationScope? Scope { get; set; }
+    public Dictionary<string, object?>? ScopeAttributes { get; set; }
 
     public string? SchemaUrl { get; set; }
     public string TraceId { get; set; } = null!;
@@ -30,13 +30,13 @@ public class Trace
     public ulong EndTimeUnixNano { get; set; }
     
     [Column(TypeName = "jsonb")]
-    public RepeatedField<KeyValue>? Attributes { get; set; }
+    public Dictionary<string, object?>? Attributes { get; set; }
     
     [Column(TypeName = "jsonb")]
-    public RepeatedField<Span.Types.Event>? Events { get; set; }
+    public List<TraceEvent>? Events { get; set; }
     
     [Column(TypeName = "jsonb")]
-    public RepeatedField<Span.Types.Link>? Links { get; set; }
+    public List<TraceLink>? Links { get; set; }
 
     public string? Message { get; set; }
     public Status.Types.StatusCode Code { get; set; }

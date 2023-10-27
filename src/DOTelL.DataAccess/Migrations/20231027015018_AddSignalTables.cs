@@ -1,10 +1,10 @@
-﻿using Google.Protobuf.Collections;
+﻿using System.Collections.Generic;
+using DOTelL.DataAccess.Models.LogData;
+using DOTelL.DataAccess.Models.TraceData;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using OpenTelemetry.Proto.Common.V1;
 using OpenTelemetry.Proto.Logs.V1;
 using OpenTelemetry.Proto.Metrics.V1;
-using OpenTelemetry.Proto.Resource.V1;
 using OpenTelemetry.Proto.Trace.V1;
 
 #nullable disable
@@ -29,16 +29,18 @@ namespace DOTelL.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Resource = table.Column<Resource>(type: "jsonb", nullable: false),
+                    Resource = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: false),
                     ResourceSchemaUrl = table.Column<string>(type: "text", nullable: true),
-                    Scope = table.Column<InstrumentationScope>(type: "jsonb", nullable: true),
+                    ScopeName = table.Column<string>(type: "text", nullable: true),
+                    ScopeVersion = table.Column<string>(type: "text", nullable: true),
+                    ScopeAttributes = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true),
                     SchemaUrl = table.Column<string>(type: "text", nullable: true),
                     TimeUnixNano = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     ObservedTimeUnixNano = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     SeverityNumber = table.Column<SeverityNumber>(type: "severity_number", nullable: true),
                     SeverityText = table.Column<string>(type: "text", nullable: true),
-                    Body = table.Column<AnyValue>(type: "jsonb", nullable: true),
-                    Attributes = table.Column<RepeatedField<KeyValue>>(type: "jsonb", nullable: true),
+                    Body = table.Column<LogBody>(type: "jsonb", nullable: true),
+                    Attributes = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true),
                     Flags = table.Column<long>(type: "bigint", nullable: true),
                     TraceId = table.Column<string>(type: "text", nullable: true),
                     SpanId = table.Column<string>(type: "text", nullable: true)
@@ -54,19 +56,17 @@ namespace DOTelL.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Resource = table.Column<Resource>(type: "jsonb", nullable: false),
+                    Resource = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: false),
                     ResourceSchemaUrl = table.Column<string>(type: "text", nullable: true),
-                    Scope = table.Column<InstrumentationScope>(type: "jsonb", nullable: true),
+                    ScopeName = table.Column<string>(type: "text", nullable: true),
+                    ScopeVersion = table.Column<string>(type: "text", nullable: true),
+                    ScopeAttributes = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true),
                     SchemaUrl = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Unit = table.Column<string>(type: "text", nullable: false),
                     MetricType = table.Column<Metric.DataOneofCase>(type: "data_oneof_case", nullable: false),
-                    Gauge = table.Column<Gauge>(type: "jsonb", nullable: true),
-                    Sum = table.Column<Sum>(type: "jsonb", nullable: true),
-                    Histogram = table.Column<Histogram>(type: "jsonb", nullable: true),
-                    ExponentialHistogram = table.Column<ExponentialHistogram>(type: "jsonb", nullable: true),
-                    Summary = table.Column<Summary>(type: "jsonb", nullable: true)
+                    Data = table.Column<object>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,9 +79,11 @@ namespace DOTelL.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Resource = table.Column<Resource>(type: "jsonb", nullable: false),
+                    Resource = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: false),
                     ResourceSchemaUrl = table.Column<string>(type: "text", nullable: true),
-                    Scope = table.Column<InstrumentationScope>(type: "jsonb", nullable: true),
+                    ScopeName = table.Column<string>(type: "text", nullable: true),
+                    ScopeVersion = table.Column<string>(type: "text", nullable: true),
+                    ScopeAttributes = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true),
                     SchemaUrl = table.Column<string>(type: "text", nullable: true),
                     TraceId = table.Column<string>(type: "text", nullable: false),
                     SpanId = table.Column<string>(type: "text", nullable: false),
@@ -92,9 +94,9 @@ namespace DOTelL.DataAccess.Migrations
                     Kind = table.Column<Span.Types.SpanKind>(type: "span_kind", nullable: false),
                     StartTimeUnixNano = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     EndTimeUnixNano = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    Attributes = table.Column<RepeatedField<KeyValue>>(type: "jsonb", nullable: true),
-                    Events = table.Column<RepeatedField<Span.Types.Event>>(type: "jsonb", nullable: true),
-                    Links = table.Column<RepeatedField<Span.Types.Link>>(type: "jsonb", nullable: true),
+                    Attributes = table.Column<Dictionary<string, object>>(type: "jsonb", nullable: true),
+                    Events = table.Column<List<TraceEvent>>(type: "jsonb", nullable: true),
+                    Links = table.Column<List<TraceLink>>(type: "jsonb", nullable: true),
                     Message = table.Column<string>(type: "text", nullable: true),
                     Code = table.Column<Status.Types.StatusCode>(type: "status_code", nullable: false)
                 },
