@@ -1,4 +1,3 @@
-using DOTelL.DataAccess.Options;
 using DOTelL.DataAccess.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,8 +13,6 @@ public static class ConfigureServices
 {
     public static void ConfigureDataAccess(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.SectionName));
-        
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("SignalDbContext"));
         dataSourceBuilder.MapEnum<SeverityNumber>();
         dataSourceBuilder.MapEnum<Metric.DataOneofCase>();
