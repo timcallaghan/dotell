@@ -14,10 +14,23 @@ DOTelL aims to do the following things:
 
 DOTelL is _not_ meant to replace a production-grade OTel backend. It is only meant to be used during local development to provide a simple view over locally emitted telemetry. Because it only implements OTLP ingestion formats it is trivial to switch your application to a different backend in deployed environments. It works well either as a direct export target from your applications, or as a target from a locally running instance of the OpenTelemetry Collector.
 
+## Installation
+
+DOTelL is designed to run as a single Docker container.
+
+TODO: Update with the docker run command once we have ghcr images via GitHub workflow
+
+Once installed you can configure your local services to send OTLP telemetry via gRPC to the locally exposed port `4317`.
+
+The PostgreSQL database is (optionally) exposed on the default port of 5432 with user `postgres` and password `password`. The database name is `dotell`.
+
+The bundled pgweb admin UI is exposed locally on port `5042` and can be accessed in your browser of choice on [http://localhost:5042](http://localhost:5042).
+
 ## Technology
 
-1. .NET for hosting gRPC services to ingest telemetry, and exposing APIs for querying the ingested telemetry
-2. PostgreSQL for storing and querying telemetry
+1. [.NET](https://dotnet.microsoft.com/en-us/) for hosting gRPC services to ingest telemetry, and exposing APIs for querying the ingested telemetry
+2. [PostgreSQL](https://www.postgresql.org/) for storing and querying telemetry
+3. [pgweb](https://github.com/sosedoff/pgweb) for telemetry signal visualisation and exploration
 
 All of the above are [combined into a single Docker image](https://docs.docker.com/config/containers/multi-service_container/) that can be easily run locally. _NOTE: This is done purposefully for ease of use by developers and in no way endorses running multiple processes inside a single container in deployed environments._
 
@@ -27,6 +40,5 @@ All of the above are [combined into a single Docker image](https://docs.docker.c
    1. In cases where `--recurse-submodules` wasn't specified when cloning you can restore the submodules by issuing the command `git submodule update --init --recursive`
 2. Install prerequisites:
    1. [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
-   2. TODO...
 3. Build a local docker image with `docker build -t dotell.api:dev -f src/DOTelL.Api/Dockerfile .`
-4. Run the image with `docker run -p 4317:4317 -p 5052:5042 -p 5432:5432 --name dotell-testing -d dotell.api:dev`
+4. Run the image with `docker run -p 4317:4317 -p 5042:5042 -p 5432:5432 --name dotell-testing -d dotell.api:de`
