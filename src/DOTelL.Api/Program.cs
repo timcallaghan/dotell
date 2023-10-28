@@ -15,11 +15,11 @@ builder.Services.AddHostedService<DatabaseBootstrapService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<LogsService>().RequireHost("*:4317");
-app.MapGrpcService<MetricsService>().RequireHost("*:4317");
-app.MapGrpcService<TraceService>().RequireHost("*:4317");
+app.MapGrpcService<LogsService>();
+app.MapGrpcService<MetricsService>();
+app.MapGrpcService<TraceService>();
 app.MapGet("/",
     () =>
-        "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+        "DOTelL API currently only only supports OTLP gRPC endpoints over HTTP/2 connections.");
 
 app.Run();
