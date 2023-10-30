@@ -49,4 +49,4 @@ jobs:
           push: true
           context: .
           file: src/DOTelL.Api/Dockerfile
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}
