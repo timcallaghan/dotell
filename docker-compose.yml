@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  dotellapi:
+    image: dotellapi
+    build:
+      context: .
+      dockerfile: src/DOTelL.Api/Dockerfile
+    ports:
+      - 4317:4317
+      - 5042:5042
+    healthcheck:
+      test: curl --fail http://localhost:4317/health || exit
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  generator1:
+    image: telemetry-genertor
+    build:
+      context: .
+      dockerfile: tools/TelemetryGenerator/Dockerfile
+    expose:
+      - 80
+    ports:
+      - 5044:80
+    environment:
+      - ServiceName=telemetry-generator-1
+      - Otlp__Endpoint=http://dotellapi:4317
+      - ExternalApi__Endpoint=http://generator2:80
+    depends_on:
+      - dotellapi
+
+  generator2:
+    image: telemetry-genertor
+    expose:
+      - 80
+    ports:
+      - 5045:80
+    environment:
+      - ServiceName=telemetry-generator-2
+      - Otlp__Endpoint=http://dotellapi:4317
+      - ExternalApi__Endpoint=http://generator1:80
+    depends_on:
+      - generator1

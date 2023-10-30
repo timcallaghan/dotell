@@ -17,6 +17,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTelL.DataAccess", "src\DO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOTelL.Protos", "src\DOTelL.Protos\DOTelL.Protos.csproj", "{C091285E-84C7-489B-8051-7C91503B1634}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{9B8AAFC2-3030-4A49-916E-420F40F5D3FB}"
+	ProjectSection(SolutionItems) = preProject
+		tools\migrations-add.sh = tools\migrations-add.sh
+		tools\migrations-remove.sh = tools\migrations-remove.sh
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryGenerator", "tools\TelemetryGenerator\TelemetryGenerator.csproj", "{D5317BF0-59F2-4E16-AADE-3CA05C67A0B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +43,15 @@ Global
 		{C091285E-84C7-489B-8051-7C91503B1634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C091285E-84C7-489B-8051-7C91503B1634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C091285E-84C7-489B-8051-7C91503B1634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5317BF0-59F2-4E16-AADE-3CA05C67A0B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5317BF0-59F2-4E16-AADE-3CA05C67A0B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5317BF0-59F2-4E16-AADE-3CA05C67A0B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5317BF0-59F2-4E16-AADE-3CA05C67A0B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0F078E62-7988-40CC-90D2-1E83FC6CFE77} = {98D968ED-6473-453E-922F-E50815399A9C}
 		{13E521FF-4A69-47CF-9BCB-C0D40145D48E} = {98D968ED-6473-453E-922F-E50815399A9C}
 		{C091285E-84C7-489B-8051-7C91503B1634} = {98D968ED-6473-453E-922F-E50815399A9C}
+		{D5317BF0-59F2-4E16-AADE-3CA05C67A0B6} = {9B8AAFC2-3030-4A49-916E-420F40F5D3FB}
 	EndGlobalSection
 EndGlobal

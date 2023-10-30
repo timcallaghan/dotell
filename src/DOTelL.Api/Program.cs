@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.ConfigureDataAccess(builder.Configuration);
 builder.Services.AddHostedService<DatabaseBootstrapService>();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -18,6 +19,7 @@ var app = builder.Build();
 app.MapGrpcService<LogsService>();
 app.MapGrpcService<MetricsService>();
 app.MapGrpcService<TraceService>();
+app.MapHealthChecks("/health");
 app.MapGet("/",
     () =>
         "DOTelL API currently only only supports OTLP gRPC endpoints over HTTP/2 connections.");

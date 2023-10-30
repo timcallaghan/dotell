@@ -3,7 +3,6 @@
   <component name="UserContentModel">
     <attachedFolders>
       <Path>opentelemetry-proto</Path>
-      <Path>tools</Path>
     </attachedFolders>
     <explicitIncludes />
     <explicitExcludes />

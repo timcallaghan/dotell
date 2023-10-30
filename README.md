@@ -46,6 +46,6 @@ _NOTE: This is done purposefully for ease of use by developers and in no way end
 2. Install prerequisites:
    1. [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 3. Build a local docker image with `docker build -t dotell.api:dev -f src/DOTelL.Api/Dockerfile .`
-4. Run the image with `docker run -p 4317:4317 -p 5042:5042 -p 5432:5432 --name dotell-testing -d dotell.api:dev`
+4. Run the image with `docker run -p 4317:4317 -p 5042:5042 --name dotell-testing -d dotell.api:dev`
 
 If you need to debug DOTelL gRPC endpoints it is easiest to run a separate instance of PostgreSQL locally and configure the DB connection string in [appsettings.json](src/DOTelL.Api/appsettings.json), and then debug the application from your IDE of choice. Because of the way the DOTelL Docker image runs multiple processes it is non-trivial to debug the gRPC endpoints inside the running Docker container.

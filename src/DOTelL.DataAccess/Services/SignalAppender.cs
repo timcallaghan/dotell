@@ -10,6 +10,7 @@ using OpenTelemetry.Proto.Collector.Metrics.V1;
 using OpenTelemetry.Proto.Collector.Trace.V1;
 using Metric = DOTelL.DataAccess.Models.Metric;
 using Status = OpenTelemetry.Proto.Trace.V1.Status;
+using Trace = DOTelL.DataAccess.Models.Trace;
 
 namespace DOTelL.DataAccess.Services;
 
@@ -67,8 +68,8 @@ internal class SignalAppender : ISignalAppender
                         SeverityText = logRecord.SeverityText,
                         Attributes = logRecord.Attributes?.ToAttributeDictionary(),
                         Flags = logRecord.Flags,
-                        TraceId = logRecord.TraceId.ToBase64(),
-                        SpanId = logRecord.SpanId.ToBase64()
+                        TraceId = logRecord.TraceId?.ToTraceId(),
+                        SpanId = logRecord.SpanId?.ToSpanId()
                     };
 
                     if (logRecord.Body is not null)
@@ -170,10 +171,10 @@ internal class SignalAppender : ISignalAppender
                         ScopeVersion = scopeSpan.Scope?.Version,
                         ScopeAttributes = scopeSpan.Scope?.Attributes.ToAttributeDictionary(),
                         SchemaUrl = scopeSpan.SchemaUrl,
-                        TraceId = span.TraceId.ToBase64(),
-                        SpanId = span.SpanId.ToBase64(),
+                        TraceId = span.TraceId.ToTraceId()!,
+                        SpanId = span.SpanId.ToSpanId()!,
                         TraceState = span.TraceState,
-                        ParentSpanId = span.ParentSpanId?.ToBase64(),
+                        ParentSpanId = span.ParentSpanId?.ToSpanId(),
                         Flags = span.Flags,
                         Name = span.Name,
                         Kind = span.Kind,
@@ -198,8 +199,8 @@ internal class SignalAppender : ISignalAppender
                     {
                         trace.Links = span.Links.Select(o => new TraceLink
                         {
-                            TraceId = o.TraceId.ToBase64(),
-                            SpanId = o.SpanId.ToBase64(),
+                            TraceId = o.TraceId.ToTraceId()!,
+                            SpanId = o.SpanId.ToSpanId()!,
                             TraceState = o.TraceState,
                             Attributes = o.Attributes?.ToAttributeDictionary()
                         }).ToList();

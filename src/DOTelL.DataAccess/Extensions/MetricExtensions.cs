@@ -137,8 +137,8 @@ public static class MetricExtensions
             FilteredAttributes = o.FilteredAttributes?.ToAttributeDictionary(),
             TimeUnixNano = o.TimeUnixNano,
             Value = o.ExtractData(),
-            SpanId = o.SpanId?.ToBase64(),
-            TraceId = o.TraceId?.ToBase64()
+            SpanId = o.SpanId?.ToSpanId(),
+            TraceId = o.TraceId?.ToTraceId()
         }).ToList();
     }
     
