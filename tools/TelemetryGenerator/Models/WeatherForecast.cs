@@ -9,4 +9,9 @@ public class WeatherForecast
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
     public string? Summary { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Date}, {TemperatureC}\u2103, {Summary ?? string.Empty}";
+    }
 }
