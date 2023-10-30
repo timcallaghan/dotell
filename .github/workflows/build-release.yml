@@ -1,0 +1,26 @@
+name: "Build release"
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    name: "Build docker image"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Semantic versioning
+        id: semver
+        uses: paulhatch/semantic-version@v5.3.0
+        with:
+      - name: Print Diagnostic Output
+        run: echo $DEBUG_OUTPUT
+        env:
+          DEBUG_OUTPUT: ${{ steps.semver.outputs.debug_output }}
