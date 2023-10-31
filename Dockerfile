@@ -1,0 +1,1 @@
+# Intentionally left empty - forces semantic-release to use the docker plugin (see https://github.com/marketplace/actions/open-sauced-release#docker)
