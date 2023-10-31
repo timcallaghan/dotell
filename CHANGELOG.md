@@ -5,6 +5,17 @@
 
 > All notable changes to this project will be documented in this file
 
+## [1.0.0](https://github.com/timcallaghan/dotell/compare/v0.3.0...v1.0.0) (2023-10-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update readme and provide installation and usage instructions
+
+### 🍕 Features
+
+* Update readme and provide installation and usage instructions ([715222a](https://github.com/timcallaghan/dotell/commit/715222ac2d85405a597138377ce2a6f91b3d00ea))
+
 ## [0.3.0](https://github.com/timcallaghan/dotell/compare/v0.2.0...v0.3.0) (2023-10-31)
 
 
