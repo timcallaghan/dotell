@@ -5,6 +5,13 @@
 
 > All notable changes to this project will be documented in this file
 
+## [0.2.0](https://github.com/timcallaghan/dotell/compare/v0.1.0...v0.2.0) (2023-10-31)
+
+
+### 🍕 Features
+
+* Use semantic-release docker plugin to tag and push images ([e30a242](https://github.com/timcallaghan/dotell/commit/e30a242d09b0f631cca0f427c933411e67112734))
+
 ## [0.1.0](https://github.com/timcallaghan/dotell/compare/v0.0.1...v0.1.0) (2023-10-31)
 
 
