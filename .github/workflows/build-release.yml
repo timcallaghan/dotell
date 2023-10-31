@@ -59,9 +59,6 @@ jobs:
   release:
     name: DOTelL semantic release
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://github.com/${{ github.repository }}/releases/tag/${{ steps.semantic-release.outputs.release-tag }}
     needs:
       - build
 
