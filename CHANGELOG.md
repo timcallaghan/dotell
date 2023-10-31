@@ -5,6 +5,13 @@
 
 > All notable changes to this project will be documented in this file
 
+## [0.3.0](https://github.com/timcallaghan/dotell/compare/v0.2.0...v0.3.0) (2023-10-31)
+
+
+### 🍕 Features
+
+* remove GitHub environment from build/release process ([91a0eda](https://github.com/timcallaghan/dotell/commit/91a0eda619108e71873f7f7ad79525865eed7421))
+
 ## [0.2.0](https://github.com/timcallaghan/dotell/compare/v0.1.0...v0.2.0) (2023-10-31)
 
 
