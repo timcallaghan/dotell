@@ -1,5 +1,27 @@
 # Sample SQL Queries
 
+## Distinct resources
+
+Find the distinct set of unique resources across all traces.
+
+```sql
+SELECT DISTINCT "Resource"->'service.name' AS "ServiceName" FROM "Traces"
+```
+
+## Root spans
+
+Find the root span (trace entry point) for each unique traceId.
+
+```sql
+SELECT 
+  "Resource"->'service.name' AS "ServiceName",
+  "TraceId",
+  "SpanId",
+  "Name"
+FROM "Traces"
+WHERE "ParentSpanId" IS NULL
+```
+
 ## Ordered spans within a trace
 
 Required:
